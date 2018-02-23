@@ -1,6 +1,9 @@
 package com.livro.resource;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.Valid;
 
@@ -41,15 +44,18 @@ public class LivroResource {
 		return ResponseEntity.ok(livro);
 	}
 	
-	@PostMapping("/adicionar/{nome}/{serie}/{emprestimo}")
+	@PostMapping("/adicionar/{nome}/{serie}/{emprestimo}/{registroEmprestimo}")
 	public Livro adicionar(
 			@PathVariable String nome,
 			@PathVariable String serie,
-			@PathVariable boolean emprestimo){
+			@PathVariable boolean emprestimo,
+			@PathVariable String registroEmprestimo) throws ParseException {
 		Livro livro = new Livro();
 		livro.setNome(nome);
 		livro.setSerie(serie);
 		livro.setEmprestimo(emprestimo);
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy", new Locale("pt", "BR"));
+		livro.setRegistroEmprestimo(sdf.parse(registroEmprestimo));
 		return livros.save(livro);
 	}
 	
