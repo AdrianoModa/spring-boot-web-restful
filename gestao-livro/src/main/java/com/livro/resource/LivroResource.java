@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +70,24 @@ public class LivroResource {
 		
 		livros.save(livroExistente);
 		return ResponseEntity.ok(livroExistente);
+	}
+	
+	@PutMapping("/{id}/{nome}/{serie}/{emprestimo}/{registroEmprestimo}")
+	public ResponseEntity<Livro> atualizarTodos(
+			@RequestBody @Valid
+			@PathVariable Long id,
+			@PathVariable String nome,
+			@PathVariable String serie,
+			@PathVariable boolean emprestimo,
+			@PathVariable String registroEmprestimo) throws ParseException {
+		Livro livro = livros.findOne(id);
+		livro.setNome(nome);
+		livro.setSerie(serie);
+		livro.setEmprestimo(emprestimo);
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy", new Locale("pt", "BR"));
+		livro.setRegistroEmprestimo(sdf.parse(registroEmprestimo));
+		livros.save(livro);
+		return ResponseEntity.ok(livro);
 	}
 	
 	@DeleteMapping("/{id}")
