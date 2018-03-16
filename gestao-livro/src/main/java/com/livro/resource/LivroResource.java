@@ -45,21 +45,11 @@ public class LivroResource {
 		return ResponseEntity.ok(livro);
 	}
 	
-	@PostMapping("/adicionar/{nome}/{serie}/{emprestimo}/{registroEmprestimo}")
-	public Livro adicionar(
-			@PathVariable String nome,
-			@PathVariable String serie,
-			@PathVariable boolean emprestimo,
-			@PathVariable String registroEmprestimo) throws ParseException {
-		Livro livro = new Livro();
-		livro.setNome(nome);
-		livro.setSerie(serie);
-		livro.setEmprestimo(emprestimo);
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy", new Locale("pt", "BR"));
-		livro.setRegistroEmprestimo(sdf.parse(registroEmprestimo));
+	@PostMapping("/adicionar")
+	public Livro adicionar(@Valid @RequestBody Livro livro){
 		return livros.save(livro);
 	}
-	
+		
 	@PutMapping("/{id}")
 	public ResponseEntity<Livro> atualizar(@PathVariable Long id,
 			@Valid @RequestBody Livro livro){
