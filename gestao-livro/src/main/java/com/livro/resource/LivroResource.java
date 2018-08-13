@@ -58,7 +58,6 @@ public class LivroResource {
 	}
 	
 	@DeleteMapping("/{id}")
-	@ResponseStatus(code = HttpStatus.OK, reason = "Mensagem: O Livro foi removido com sucesso!")
 	public ResponseEntity<?> remover(@PathVariable Long id){
 		Livro livroExistente = livros.findOne(id);
 		Optional.ofNullable(livroExistente).orElseThrow(() -> new RestClientException("Erro: O Livro não existe"));
