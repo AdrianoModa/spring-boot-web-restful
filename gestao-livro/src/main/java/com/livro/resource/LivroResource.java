@@ -1,11 +1,10 @@
 package com.livro.resource;
 
 import java.util.List;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,31 +27,30 @@ public class LivroResource {
 	
 	@GetMapping
 	public List<Livro> listar(){
-		return livroService.listarTodosLivros();
+		return livroService.listarTodos();
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Livro> buscarPorId(@Valid @PathVariable Long id){
-		Livro livroId = livroService.listarLivroPorId(id);	
-		return ResponseEntity.ok(livroId);
+	public ResponseEntity<Livro> buscarPorId(@Validated @PathVariable Long id){
+		return ResponseEntity.ok(livroService.listarPorId(id));
 	}
 	
 	@PostMapping
-	public Livro adicionar(@Valid @RequestBody Livro livro){
-		return livroService.adicionarLivro(livro);
+	public Livro adicionar(@Validated @RequestBody Livro livro){
+		return livroService.adicionar(livro);
 	}
 		
 	@PutMapping("/{id}")
-	public ResponseEntity<?> atualizar(@PathVariable Long id, @Valid @RequestBody Livro livro){
-		Livro livroExistente = livroService.listarLivroPorId(id);		
-		livroService.atualizarLivro(livroExistente);
-		return ResponseEntity.status(HttpStatus.OK).body("Livro atualizado com sucesso! " + livroExistente);
+	public ResponseEntity<?> atualizar(@PathVariable Long id, @Validated @RequestBody Livro livro){
+		livro.setId(id);
+		livroService.atualizar(livro);
+		return ResponseEntity.status(HttpStatus.OK).body(livro);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> remover(@PathVariable Long id){
-		Livro livroExistente = livroService.listarLivroPorId(id);
-		livroService.removerLivro(livroExistente.getId());
+		Livro livroExistente = livroService.listarPorId(id);
+		livroService.remover(livroExistente.getId());
 		return ResponseEntity.status(HttpStatus.OK).body("Livro removido com sucesso!");
 	}
 	

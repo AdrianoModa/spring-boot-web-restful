@@ -14,6 +14,6 @@ public class GestaoLivroApplication {
 		SpringApplication.run(GestaoLivroApplication.class, args);
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", new Locale("pt", "BR"));
 		Calendar calendar = Calendar.getInstance();
-		System.out.println("Projeto gestao-livro Iniciado... \nàs: " + sdf.format(calendar.getTime()));
+		System.out.println("Projeto gestao-livro Iniciado... às: " + sdf.format(calendar.getTime()));
 	}
 }

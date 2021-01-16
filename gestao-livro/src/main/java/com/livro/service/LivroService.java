@@ -2,9 +2,6 @@ package com.livro.service;
 
 import java.util.List;
 import java.util.Optional;
-
-import javax.persistence.EntityExistsException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.livro.model.Livro;
@@ -16,30 +13,27 @@ public class LivroService {
 	@Autowired
 	private Livros repositoriolivros;
 
-	public List<Livro> listarTodosLivros(){
+	public List<Livro> listarTodos(){
 		return repositoriolivros.findAll();
 	}
 
-	public Livro listarLivroPorId(Long id){
-		Livro livro = repositoriolivros.findOne(id);
-		Optional.ofNullable(livro).orElseThrow(() -> new EntityExistsException("O objeto não existe ou não foi identificado"));
-		return livro;
+	public Livro listarPorId(Long id){
+		Optional<Livro> livro = repositoriolivros.findById(id);
+		return livro.orElse(null);
 	}
 
-	public Livro adicionarLivro(Livro livro){
+	public Livro adicionar(Livro livro){
 		return repositoriolivros.save(livro);
 	}
 
-	public Livro atualizarLivro(Livro livro){
-		Livro livroExistente = repositoriolivros.findOne(livro.getId());
-		Optional.ofNullable(livroExistente).orElseThrow(() -> new EntityExistsException("O objeto não existe ou não foi identificado"));		
-		return repositoriolivros.saveAndFlush(livroExistente);
+	public Livro atualizar(Livro livro){
+		return repositoriolivros.save(livro);
 	}
 
-	public void removerLivro(Long id){
-		Livro livroExistente = repositoriolivros.findOne(id);
-		Optional.ofNullable(livroExistente).orElseThrow(() -> new EntityExistsException("O objeto não existe ou não foi identificado"));
-		repositoriolivros.delete(livroExistente);
+	public void remover(Long id){
+		Optional<Livro> livroExistente = repositoriolivros.findById(id);
+		livroExistente.orElse(null);
+		repositoriolivros.delete(livroExistente.get());
 	}
 
 }
