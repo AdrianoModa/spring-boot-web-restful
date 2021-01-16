@@ -20,7 +20,7 @@ import com.livro.service.LivroService;
 
 @RestController
 @RequestMapping("/livro")
-@CrossOrigin("${origem-permitida}")
+@CrossOrigin
 public class LivroResource {
 
 	@Autowired
