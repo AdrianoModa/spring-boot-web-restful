@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.livro.model.Livro;
 import com.livro.service.LivroService;
@@ -26,21 +27,25 @@ public class LivroResource {
 	private LivroService livroService;
 	
 	@GetMapping
+	@ResponseStatus(code = HttpStatus.OK)
 	public List<Livro> listar(){
 		return livroService.listarTodos();
 	}
 	
 	@GetMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<Livro> buscarPorId(@Validated @PathVariable Long id){
 		return ResponseEntity.ok(livroService.listarPorId(id));
 	}
 	
 	@PostMapping
+	@ResponseStatus(code = HttpStatus.CREATED)
 	public Livro adicionar(@Validated @RequestBody Livro livro){
 		return livroService.adicionar(livro);
 	}
 		
 	@PutMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<?> atualizar(@PathVariable Long id, @Validated @RequestBody Livro livro){
 		livro.setId(id);
 		livroService.atualizar(livro);
@@ -48,6 +53,7 @@ public class LivroResource {
 	}
 	
 	@DeleteMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public ResponseEntity<?> remover(@PathVariable Long id){
 		Livro livroExistente = livroService.listarPorId(id);
 		livroService.remover(livroExistente.getId());
