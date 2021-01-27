@@ -32,7 +32,7 @@ public class Livro implements Serializable {
 	@Getter @Setter private Long id;	
 	@Getter @Setter private String nome;	
 	@Getter @Setter private String serie;	
-	@Getter @Setter private boolean seEmprestado;
+	@Getter @Setter private LivroStatus status;
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy' 'HH:mm")
 	@Getter @Setter private Date registroEmprestimo;	
 	
